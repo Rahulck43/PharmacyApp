@@ -3,6 +3,7 @@ using PharmacyApp.Core;
 using PharmacyApp.Core.Options;
 using PharmacyApp.Infrastructure;
 using PharmacyApp.Infrastructure.Options;
+using PharmacyApp.Infrastructure.Persistence;
 
 const string ClientCorsPolicy = "Client";
 
@@ -48,6 +49,9 @@ app.UseExceptionHandler();
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+    app.UseSwaggerUI(options => options.SwaggerEndpoint("/openapi/v1.json", "PharmacyApp API"));
+
+    await app.Services.GetRequiredService<DataSeeder>().SeedAsync(CancellationToken.None);
 }
 
 app.UseHttpsRedirection();

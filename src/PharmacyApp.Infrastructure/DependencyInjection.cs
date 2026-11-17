@@ -16,6 +16,7 @@ public static class DependencyInjection
             .ValidateOnStart();
 
         services.AddSingleton<JsonDataStore>();
+        services.AddSingleton<DataSeeder>();
         services.AddScoped<IMedicineRepository, JsonMedicineRepository>();
         services.AddScoped<ISaleRepository, JsonSaleRepository>();
 
