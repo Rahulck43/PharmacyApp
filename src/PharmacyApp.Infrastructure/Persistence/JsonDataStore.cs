@@ -49,6 +49,13 @@ public sealed class JsonDataStore : IDisposable
         }
     }
 
+    public Task UpdateAsync(Action<PharmacyData> update, CancellationToken cancellationToken) =>
+        UpdateAsync(data =>
+        {
+            update(data);
+            return true;
+        }, cancellationToken);
+
     public void Dispose() => _lock.Dispose();
 
     private async Task<PharmacyData> LoadAsync(CancellationToken cancellationToken)
