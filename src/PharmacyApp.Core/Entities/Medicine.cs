@@ -1,3 +1,5 @@
+using PharmacyApp.Core.Exceptions;
+
 namespace PharmacyApp.Core.Entities;
 
 public class Medicine
@@ -69,7 +71,7 @@ public class Medicine
 
         if (quantity > Quantity)
         {
-            throw new InvalidOperationException(
+            throw new BusinessRuleException(
                 $"Only {Quantity} units of '{FullName}' in stock.");
         }
 
