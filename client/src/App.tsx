@@ -1,8 +1,14 @@
+import { useState } from 'react'
 import { MedicineTable } from './components/MedicineTable'
+import { SearchBar } from './components/SearchBar'
+import { useDebouncedValue } from './hooks/useDebouncedValue'
 import { useMedicines } from './hooks/useMedicines'
 
 function App() {
-  const { medicines, loading, error } = useMedicines()
+  const [searchInput, setSearchInput] = useState('')
+  const debouncedSearch = useDebouncedValue(searchInput, 300)
+  const search = searchInput.trim() === '' ? '' : debouncedSearch
+  const { medicines, loading, error } = useMedicines(search)
 
   return (
     <main>
@@ -10,6 +16,8 @@ function App() {
 
       <section aria-labelledby="inventory-heading">
         <h2 id="inventory-heading">Inventory</h2>
+
+        <SearchBar value={searchInput} onChange={setSearchInput} />
 
         {error && (
           <p role="alert" className="alert alert-error">
@@ -20,7 +28,7 @@ function App() {
         {loading && medicines.length === 0 ? (
           <p>Loading medicines…</p>
         ) : (
-          !error && <MedicineTable medicines={medicines} />
+          !error && <MedicineTable medicines={medicines} searchTerm={search} />
         )}
       </section>
     </main>

@@ -118,3 +118,47 @@ tbody tr:last-child td {
   background: #a16207;
   color: #fff;
 }
+
+.search-bar {
+  margin-bottom: 1rem;
+}
+
+.search-bar label {
+  display: block;
+  margin-bottom: 0.3rem;
+  font-weight: 600;
+}
+
+.search-input-row {
+  display: flex;
+  gap: 0.5rem;
+  max-width: 420px;
+}
+
+.search-input-row input {
+  flex: 1;
+  min-width: 0;
+  padding: 0.5rem 0.7rem;
+  font: inherit;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+}
+
+.search-input-row input:focus {
+  outline: 2px solid #2563eb;
+  outline-offset: 1px;
+}
+
+.button-secondary {
+  padding: 0.5rem 0.9rem;
+  font: inherit;
+  color: #1f2937;
+  background: #fff;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.button-secondary:hover {
+  background: #f3f4f6;
+}

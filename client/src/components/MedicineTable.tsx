@@ -4,11 +4,13 @@ import { getMedicineStatus, statusLabels } from '../utils/medicineStatus'
 
 interface MedicineTableProps {
   medicines: Medicine[]
+  searchTerm?: string
 }
 
-export function MedicineTable({ medicines }: MedicineTableProps) {
+export function MedicineTable({ medicines, searchTerm = '' }: MedicineTableProps) {
   if (medicines.length === 0) {
-    return <p className="empty">No medicines found.</p>
+    const term = searchTerm.trim()
+    return <p className="empty">{term ? `No results for ‘${term}’.` : 'No medicines found.'}</p>
   }
 
   return (
