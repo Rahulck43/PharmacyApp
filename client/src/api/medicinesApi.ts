@@ -11,6 +11,11 @@ export interface Medicine {
   isLowStock: boolean
 }
 
+export interface MedicineDetails extends Medicine {
+  notes: string | null
+  createdAt: string
+}
+
 export interface CreateMedicineRequest {
   fullName: string
   brand: string
@@ -27,5 +32,5 @@ export function getMedicines(search = '', signal?: AbortSignal) {
 }
 
 export function createMedicine(data: CreateMedicineRequest) {
-  return request<Medicine>('/medicines', { method: 'POST', body: JSON.stringify(data) })
+  return request<MedicineDetails>('/medicines', { method: 'POST', body: JSON.stringify(data) })
 }

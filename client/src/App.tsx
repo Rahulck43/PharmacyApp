@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { MedicineForm } from './components/MedicineForm'
 import { MedicineTable } from './components/MedicineTable'
 import { SearchBar } from './components/SearchBar'
 import { useDebouncedValue } from './hooks/useDebouncedValue'
@@ -8,11 +9,16 @@ function App() {
   const [searchInput, setSearchInput] = useState('')
   const debouncedSearch = useDebouncedValue(searchInput, 300)
   const search = searchInput.trim() === '' ? '' : debouncedSearch
-  const { medicines, loading, error } = useMedicines(search)
+  const { medicines, loading, error, reload } = useMedicines(search)
 
   return (
     <main>
       <h1>ABC Pharmacy</h1>
+
+      <section aria-labelledby="add-medicine-heading">
+        <h2 id="add-medicine-heading">Add medicine</h2>
+        <MedicineForm onCreated={reload} />
+      </section>
 
       <section aria-labelledby="inventory-heading">
         <h2 id="inventory-heading">Inventory</h2>
