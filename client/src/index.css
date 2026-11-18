@@ -11,10 +11,87 @@ body {
   background: #f9fafb;
 }
 
-main {
+.container {
   max-width: 1100px;
   margin: 0 auto;
-  padding: 1.5rem 1rem;
+  padding: 0 1rem;
+}
+
+main.container {
+  padding-top: 1.25rem;
+  padding-bottom: 2.5rem;
+}
+
+.app-header {
+  background: #0f766e;
+  color: #fff;
+}
+
+.app-header .container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.25rem 0.75rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+.app-header h1 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+h2 {
+  margin: 0 0 0.75rem;
+  font-size: 1.2rem;
+}
+
+.tabs {
+  display: flex;
+  gap: 0.25rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid #d1d5db;
+}
+
+.tab {
+  padding: 0.6rem 1.1rem;
+  font: inherit;
+  font-weight: 600;
+  color: #4b5563;
+  background: none;
+  border: none;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -1px;
+  cursor: pointer;
+}
+
+.tab:hover {
+  color: #111827;
+}
+
+.tab[aria-pressed='true'] {
+  color: #0f766e;
+  border-bottom-color: #0f766e;
+}
+
+button:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
+}
+
+.loading {
+  color: #6b7280;
+}
+
+@media (max-width: 600px) {
+  .tab {
+    flex: 1;
+  }
+
+  th,
+  td {
+    padding: 0.5rem 0.6rem;
+  }
 }
 
 .table-wrapper {

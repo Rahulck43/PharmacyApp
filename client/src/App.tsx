@@ -8,7 +8,10 @@ import { useDebouncedValue } from './hooks/useDebouncedValue'
 import { useMedicines } from './hooks/useMedicines'
 import { useSales } from './hooks/useSales'
 
+type Tab = 'inventory' | 'sales'
+
 function App() {
+  const [activeTab, setActiveTab] = useState<Tab>('inventory')
   const [searchInput, setSearchInput] = useState('')
   const debouncedSearch = useDebouncedValue(searchInput, 300)
   const search = searchInput.trim() === '' ? '' : debouncedSearch
@@ -33,62 +36,97 @@ function App() {
   }, [reloadInventory, reloadSaleOptions, reloadSales])
 
   return (
-    <main>
-      <h1>ABC Pharmacy</h1>
+    <>
+      <header className="app-header">
+        <div className="container">
+          <h1>ABC Pharmacy</h1>
+        </div>
+      </header>
 
-      <section aria-labelledby="add-medicine-heading">
-        <h2 id="add-medicine-heading">Add medicine</h2>
-        <MedicineForm onCreated={handleMedicineCreated} />
-      </section>
+      <main className="container">
+        <nav className="tabs">
+          <button
+            type="button"
+            className="tab"
+            aria-pressed={activeTab === 'inventory'}
+            onClick={() => setActiveTab('inventory')}
+          >
+            Inventory
+          </button>
+          <button
+            type="button"
+            className="tab"
+            aria-pressed={activeTab === 'sales'}
+            onClick={() => setActiveTab('sales')}
+          >
+            Sales
+          </button>
+        </nav>
 
-      <section aria-labelledby="inventory-heading">
-        <h2 id="inventory-heading">Inventory</h2>
+        {activeTab === 'inventory' && (
+          <>
+            <section aria-labelledby="inventory-heading">
+              <h2 id="inventory-heading">Medicines</h2>
 
-        <SearchBar value={searchInput} onChange={setSearchInput} />
+              <SearchBar value={searchInput} onChange={setSearchInput} />
 
-        {inventory.error && (
-          <p role="alert" className="alert alert-error">
-            {inventory.error}
-          </p>
+              {inventory.error && (
+                <p role="alert" className="alert alert-error">
+                  {inventory.error}
+                </p>
+              )}
+
+              {inventory.loading && inventory.medicines.length === 0 ? (
+                <p className="loading">Loading medicines…</p>
+              ) : (
+                !inventory.error && <MedicineTable medicines={inventory.medicines} searchTerm={search} />
+              )}
+            </section>
+
+            <section aria-labelledby="add-medicine-heading">
+              <h2 id="add-medicine-heading">Add medicine</h2>
+              <MedicineForm onCreated={handleMedicineCreated} />
+            </section>
+          </>
         )}
 
-        {inventory.loading && inventory.medicines.length === 0 ? (
-          <p>Loading medicines…</p>
-        ) : (
-          !inventory.error && <MedicineTable medicines={inventory.medicines} searchTerm={search} />
-        )}
-      </section>
+        {activeTab === 'sales' && (
+          <>
+            <section aria-labelledby="record-sale-heading">
+              <h2 id="record-sale-heading">Record sale</h2>
 
-      <section aria-labelledby="record-sale-heading">
-        <h2 id="record-sale-heading">Record sale</h2>
-        {saleOptions.error && (
-          <p role="alert" className="alert alert-error">
-            {saleOptions.error}
-          </p>
-        )}
-        <SaleForm
-          medicines={saleOptions.medicines}
-          loading={saleOptions.loading}
-          onSold={handleSaleRecorded}
-        />
-      </section>
+              {saleOptions.error && (
+                <p role="alert" className="alert alert-error">
+                  {saleOptions.error}
+                </p>
+              )}
 
-      <section aria-labelledby="sales-heading">
-        <h2 id="sales-heading">Sales history</h2>
+              <SaleForm
+                medicines={saleOptions.medicines}
+                loading={saleOptions.loading}
+                onSold={handleSaleRecorded}
+              />
+            </section>
 
-        {sales.error && (
-          <p role="alert" className="alert alert-error">
-            {sales.error}
-          </p>
-        )}
+            <section aria-labelledby="sales-heading">
+              <h2 id="sales-heading">Sales history</h2>
 
-        {sales.loading && sales.sales.length === 0 ? (
-          <p>Loading sales…</p>
-        ) : (
-          !sales.error && <SalesTable sales={sales.sales} />
+              {sales.error && (
+                <p role="alert" className="alert alert-error">
+                  {sales.error}
+                </p>
+              )}
+
+              {sales.loading && sales.sales.length === 0 ? (
+                <p className="loading">Loading sales…</p>
+              ) : (
+                !sales.error && <SalesTable sales={sales.sales} />
+              )}
+            </section>
+          </>
         )}
-      </section>
-    </main>
+      </main>
+    </>
   )
 }
 
