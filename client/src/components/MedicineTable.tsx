@@ -18,7 +18,7 @@ export function MedicineTable({ medicines, searchTerm = '' }: MedicineTableProps
       <ul className="legend" aria-label="Row colour legend">
         <li>
           <span className="legend-swatch row-expiring" aria-hidden="true" />
-          {statusLabels.expiring}
+          {statusLabels.expired} / {statusLabels.expiring.toLowerCase()}
         </li>
         <li>
           <span className="legend-swatch row-low-stock" aria-hidden="true" />

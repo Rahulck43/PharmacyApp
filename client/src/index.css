@@ -166,6 +166,7 @@ tbody tr:last-child td {
   border: 1px solid #d1d5db;
 }
 
+.row-expired,
 .row-expiring {
   background: #fee2e2;
   color: #7f1d1d;
@@ -186,6 +187,7 @@ tbody tr:last-child td {
   vertical-align: middle;
 }
 
+.badge-expired,
 .badge-expiring {
   background: #b91c1c;
   color: #fff;

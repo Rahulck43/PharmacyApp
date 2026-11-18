@@ -11,7 +11,7 @@ export function SearchBar({ value, onChange }: SearchBarProps) {
         <input
           id="medicine-search"
           type="search"
-          placeholder="Name or brand"
+          placeholder="Search by name"
           value={value}
           onChange={(event) => onChange(event.target.value)}
           autoComplete="off"
