@@ -8,4 +8,5 @@ public record MedicineResponse(
     int Quantity,
     decimal Price,
     bool IsExpiringSoon,
-    bool IsLowStock);
+    bool IsLowStock,
+    bool IsExpired);

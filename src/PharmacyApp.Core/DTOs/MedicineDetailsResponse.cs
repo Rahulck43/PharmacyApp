@@ -10,4 +10,5 @@ public record MedicineDetailsResponse(
     decimal Price,
     bool IsExpiringSoon,
     bool IsLowStock,
+    bool IsExpired,
     DateTimeOffset CreatedAt);

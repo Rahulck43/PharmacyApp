@@ -16,7 +16,8 @@ public static class MappingExtensions
             medicine.Quantity,
             medicine.Price,
             medicine.IsExpiringSoon(today, options.ExpiryWarningDays),
-            medicine.IsLowStock(options.LowStockThreshold));
+            medicine.IsLowStock(options.LowStockThreshold),
+            medicine.IsExpired(today));
 
     public static MedicineDetailsResponse ToDetailsResponse(
         this Medicine medicine, DateOnly today, InventoryOptions options) =>
@@ -30,6 +31,7 @@ public static class MappingExtensions
             medicine.Price,
             medicine.IsExpiringSoon(today, options.ExpiryWarningDays),
             medicine.IsLowStock(options.LowStockThreshold),
+            medicine.IsExpired(today),
             medicine.CreatedAt);
 
     public static SaleResponse ToResponse(this Sale sale) =>
