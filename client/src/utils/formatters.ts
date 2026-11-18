@@ -6,6 +6,18 @@ const dateFormat = new Intl.DateTimeFormat('en-IN', {
   year: 'numeric',
 })
 
+const dateTimeFormat = new Intl.DateTimeFormat('en-IN', {
+  day: '2-digit',
+  month: 'short',
+  year: 'numeric',
+  hour: '2-digit',
+  minute: '2-digit',
+})
+
+export function formatDateTime(isoDateTime: string) {
+  return dateTimeFormat.format(new Date(isoDateTime))
+}
+
 export function formatPrice(value: number) {
   return currencyFormat.format(value)
 }

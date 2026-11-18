@@ -9,6 +9,7 @@ export interface Medicine {
   price: number
   isExpiringSoon: boolean
   isLowStock: boolean
+  isExpired: boolean
 }
 
 export interface MedicineDetails extends Medicine {

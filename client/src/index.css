@@ -257,3 +257,32 @@ section + section {
   color: #166534;
   border: 1px solid #bbf7d0;
 }
+
+.field select {
+  padding: 0.5rem 0.7rem;
+  font: inherit;
+  background: #fff;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+}
+
+.field select:focus {
+  outline: 2px solid #2563eb;
+  outline-offset: 1px;
+}
+
+.field-label {
+  font-weight: 600;
+}
+
+.field-hint {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #6b7280;
+}
+
+.sale-total {
+  padding: 0.5rem 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+}
