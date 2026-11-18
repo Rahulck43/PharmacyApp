@@ -17,10 +17,9 @@ public class SaleService : ISaleService
         _timeProvider = timeProvider;
     }
 
-    public async Task<IReadOnlyList<SaleResponse>> GetAllAsync(
-        Guid? medicineId, CancellationToken cancellationToken)
+    public async Task<IReadOnlyList<SaleResponse>> GetAllAsync(CancellationToken cancellationToken)
     {
-        var sales = await _saleRepository.GetAllAsync(medicineId, cancellationToken);
+        var sales = await _saleRepository.GetAllAsync(cancellationToken);
 
         return sales.Select(s => s.ToResponse()).ToList();
     }

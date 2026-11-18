@@ -18,10 +18,9 @@ public class SalesController : ControllerBase
 
     [HttpGet]
     [ProducesResponseType<IReadOnlyList<SaleResponse>>(StatusCodes.Status200OK)]
-    public async Task<ActionResult<IReadOnlyList<SaleResponse>>> GetAll(
-        [FromQuery] Guid? medicineId, CancellationToken cancellationToken)
+    public async Task<ActionResult<IReadOnlyList<SaleResponse>>> GetAll(CancellationToken cancellationToken)
     {
-        var sales = await _saleService.GetAllAsync(medicineId, cancellationToken);
+        var sales = await _saleService.GetAllAsync(cancellationToken);
         return Ok(sales);
     }
 

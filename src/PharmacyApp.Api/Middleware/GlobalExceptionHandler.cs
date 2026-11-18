@@ -6,14 +6,10 @@ namespace PharmacyApp.Api.Middleware;
 
 public sealed class GlobalExceptionHandler : IExceptionHandler
 {
-    private readonly IProblemDetailsService _problemDetailsService;
     private readonly ILogger<GlobalExceptionHandler> _logger;
 
-    public GlobalExceptionHandler(
-        IProblemDetailsService problemDetailsService,
-        ILogger<GlobalExceptionHandler> logger)
+    public GlobalExceptionHandler(ILogger<GlobalExceptionHandler> logger)
     {
-        _problemDetailsService = problemDetailsService;
         _logger = logger;
     }
 
@@ -33,18 +29,16 @@ public sealed class GlobalExceptionHandler : IExceptionHandler
                 httpContext.Request.Method, httpContext.Request.Path);
         }
 
-        httpContext.Response.StatusCode = statusCode;
-
-        return await _problemDetailsService.TryWriteAsync(new ProblemDetailsContext
+        var problemDetails = new ProblemDetails
         {
-            HttpContext = httpContext,
-            Exception = exception,
-            ProblemDetails = new ProblemDetails
-            {
-                Status = statusCode,
-                Title = title,
-                Detail = statusCode == StatusCodes.Status500InternalServerError ? null : exception.Message
-            }
-        });
+            Status = statusCode,
+            Title = title,
+            Detail = statusCode == StatusCodes.Status500InternalServerError ? null : exception.Message
+        };
+
+        httpContext.Response.StatusCode = statusCode;
+        await httpContext.Response.WriteAsJsonAsync(
+            problemDetails, options: null, contentType: "application/problem+json", cancellationToken);
+        return true;
     }
 }

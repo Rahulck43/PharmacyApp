@@ -1,33 +1,19 @@
 const BASE_URL = import.meta.env.VITE_API_BASE_URL
 
-export type FieldErrors = Record<string, string[]>
-
 export class ApiError extends Error {
   readonly status: number
-  readonly fieldErrors: FieldErrors
 
-  constructor(message: string, status: number, fieldErrors: FieldErrors = {}) {
+  constructor(message: string, status: number) {
     super(message)
     this.name = 'ApiError'
     this.status = status
-    this.fieldErrors = fieldErrors
   }
 }
 
 interface ProblemDetails {
   title?: string
   detail?: string
-  errors?: FieldErrors
-}
-
-function normaliseFieldErrors(errors: FieldErrors = {}): FieldErrors {
-  const result: FieldErrors = {}
-  for (const [key, messages] of Object.entries(errors)) {
-    const name = key.replace(/^\$\./, '')
-    const field = name.charAt(0).toLowerCase() + name.slice(1)
-    result[field] = [...(result[field] ?? []), ...messages]
-  }
-  return result
+  errors?: Record<string, string[]>
 }
 
 export async function request<T>(path: string, init: RequestInit = {}): Promise<T> {
@@ -46,10 +32,10 @@ export async function request<T>(path: string, init: RequestInit = {}): Promise<
 
   if (!response.ok) {
     const problem: ProblemDetails | null = await response.json().catch(() => null)
+    const validationMessages = problem?.errors ? Object.values(problem.errors).flat().join(' ') : ''
     throw new ApiError(
-      problem?.detail ?? problem?.title ?? 'Something went wrong.',
+      validationMessages || problem?.detail || problem?.title || 'Something went wrong.',
       response.status,
-      normaliseFieldErrors(problem?.errors),
     )
   }
 

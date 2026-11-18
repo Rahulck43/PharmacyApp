@@ -60,13 +60,7 @@ export function SaleForm({ medicines, loading, onSold }: SaleFormProps) {
       )
       onSold(sale)
     } catch (err) {
-      if (err instanceof ApiError) {
-        const quantityErrors = err.fieldErrors.quantity
-        if (quantityErrors?.length) setErrors({ quantity: quantityErrors.join(' ') })
-        setFormError(err.message)
-      } else {
-        setFormError('Could not record the sale. Please try again.')
-      }
+      setFormError(err instanceof ApiError ? err.message : 'Could not record the sale. Please try again.')
     } finally {
       setSaving(false)
     }

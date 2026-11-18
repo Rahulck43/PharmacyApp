@@ -16,17 +16,6 @@ interface MedicineFormProps {
 
 type FieldName = keyof MedicineFormValues
 
-const fieldNames = Object.keys(emptyMedicineForm) as FieldName[]
-
-function pickFieldErrors(fieldErrors: Record<string, string[]>): MedicineFormErrors {
-  const errors: MedicineFormErrors = {}
-  for (const name of fieldNames) {
-    const messages = fieldErrors[name]
-    if (messages?.length) errors[name] = messages.join(' ')
-  }
-  return errors
-}
-
 export function MedicineForm({ onCreated }: MedicineFormProps) {
   const [values, setValues] = useState<MedicineFormValues>(emptyMedicineForm)
   const [errors, setErrors] = useState<MedicineFormErrors>({})
@@ -57,13 +46,7 @@ export function MedicineForm({ onCreated }: MedicineFormProps) {
       setSuccessMessage(`“${created.fullName}” was added.`)
       onCreated(created)
     } catch (err) {
-      if (err instanceof ApiError) {
-        const serverErrors = pickFieldErrors(err.fieldErrors)
-        setErrors(serverErrors)
-        setFormError(Object.keys(serverErrors).length > 0 ? 'Please fix the highlighted fields.' : err.message)
-      } else {
-        setFormError('Could not save the medicine. Please try again.')
-      }
+      setFormError(err instanceof ApiError ? err.message : 'Could not save the medicine. Please try again.')
     } finally {
       setSaving(false)
     }

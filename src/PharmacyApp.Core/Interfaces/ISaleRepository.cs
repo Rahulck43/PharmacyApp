@@ -4,7 +4,7 @@ namespace PharmacyApp.Core.Interfaces;
 
 public interface ISaleRepository
 {
-    Task<IReadOnlyList<Sale>> GetAllAsync(Guid? medicineId, CancellationToken cancellationToken);
+    Task<IReadOnlyList<Sale>> GetAllAsync(CancellationToken cancellationToken);
 
     Task<Sale?> GetByIdAsync(Guid id, CancellationToken cancellationToken);
 

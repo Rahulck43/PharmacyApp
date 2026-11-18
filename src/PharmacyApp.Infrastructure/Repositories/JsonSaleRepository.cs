@@ -13,18 +13,10 @@ public class JsonSaleRepository : ISaleRepository
         _store = store;
     }
 
-    public Task<IReadOnlyList<Sale>> GetAllAsync(Guid? medicineId, CancellationToken cancellationToken) =>
-        _store.ReadAsync<IReadOnlyList<Sale>>(data =>
-        {
-            IEnumerable<Sale> sales = data.Sales;
-
-            if (medicineId.HasValue)
-            {
-                sales = sales.Where(s => s.MedicineId == medicineId.Value);
-            }
-
-            return sales.OrderByDescending(s => s.SoldAt).ToList();
-        }, cancellationToken);
+    public Task<IReadOnlyList<Sale>> GetAllAsync(CancellationToken cancellationToken) =>
+        _store.ReadAsync<IReadOnlyList<Sale>>(
+            data => data.Sales.OrderByDescending(s => s.SoldAt).ToList(),
+            cancellationToken);
 
     public Task<Sale?> GetByIdAsync(Guid id, CancellationToken cancellationToken) =>
         _store.ReadAsync(data => data.Sales.FirstOrDefault(s => s.Id == id), cancellationToken);
